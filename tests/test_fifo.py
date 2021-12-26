@@ -1,4 +1,7 @@
+import pytest
+
 from src.fifo import Fifo
+from data_test import *
 
 
 class Test000FifoCapacity:
@@ -84,4 +87,117 @@ class Test000FifoCapacity:
 
         fifo_empty = test_fifo.empty()
         assert fifo_empty is True, f"Expected fifo empty to be True, got {fifo_empty}"
+
+
+class Test001FifoElementAccess:
+    @staticmethod
+    def test_001_fifo_element_access_000_front_empty_fifo():
+        # setup
+        test_fifo = Fifo()
+
+        # test
+        fifo_front = test_fifo.front()
+        assert fifo_front is None, f"Expected Fifo front to be None, got {fifo_front}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_001_front_non_empty_fifo(elements):
+        # setup
+        test_fifo = Fifo(elements=elements)
+
+        # test
+        fifo_front = test_fifo.front()
+        assert fifo_front is elements[0], f"Expected Fifo front to be {elements[0]}, got {fifo_front}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_002_front_after_push(elements):
+        # setup
+        test_fifo = Fifo()
+
+        # test
+        for elem in elements:
+            test_fifo.push(element=elem)
+            fifo_front = test_fifo.front()
+            assert fifo_front is elements[0], f"Expected Fifo front to be {elements[0]}, got {fifo_front}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_003_front_after_pop(elements):
+        # setup
+        size = len(elements)
+        test_fifo = Fifo(elements)
+
+        # test
+        for index in range(1, size):
+            test_fifo.pop()
+            fifo_front = test_fifo.front()
+            assert fifo_front is elements[index], f"Expected Fifo front to be {elements[index]}, got {fifo_front}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_004_front_after_clear(elements):
+        # setup
+        test_fifo = Fifo(elements)
+
+        # test
+        test_fifo.clear()
+        fifo_front = test_fifo.front()
+        assert fifo_front is None, f"Expected Fifo front to be None, got {fifo_front}"
+
+    @staticmethod
+    def test_001_fifo_element_access_005_back_empty_fifo():
+        # setup
+        test_fifo = Fifo()
+
+        # test
+        fifo_back = test_fifo.back()
+        assert fifo_back is None, f"Expected Fifo back to be None, got {fifo_back}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_006_back_non_empty_fifo(elements):
+        # setup
+        test_fifo = Fifo(elements=elements)
+
+        # test
+        fifo_back = test_fifo.back()
+        assert fifo_back is elements[-1], f"Expected Fifo back to be {elements[-1]}, got {fifo_back}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_007_back_after_push(elements):
+        # setup
+        size = len(elements)
+        test_fifo = Fifo()
+
+        # test
+        for index in range(0, size):
+            test_fifo.push(element=elements[index])
+            fifo_back = test_fifo.back()
+            assert fifo_back is elements[index], f"Expected Fifo back to be {elements[index]}, got {fifo_back}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_008_back_after_pop(elements):
+        # setup
+        size = len(elements)
+        test_fifo = Fifo(elements)
+
+        # test
+        for x in range(0, size - 1):
+            test_fifo.pop()
+            fifo_back = test_fifo.back()
+            assert fifo_back is elements[-1], f"Expected Fifo back to be {elements[-1]}, got {fifo_back}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_001_fifo_element_access_009_back_after_clear(elements):
+        # setup
+        test_fifo = Fifo(elements)
+
+        # test
+        test_fifo.clear()
+        fifo_back = test_fifo.back()
+        assert fifo_back is None, f"Expected Fifo back to be None, got {fifo_back}"
 
