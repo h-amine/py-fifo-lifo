@@ -9,6 +9,7 @@ class Lifo:
     def __init__(self, elements: list | None = None):
         """
         Initialise the underlying container with a predefined list of elements.
+        The elements' list will be copied to the underlying container.
         If the list of elements is None (default), an empty list will be created.
         :param elements: List of elements
         """
@@ -17,7 +18,7 @@ class Lifo:
 
         assert isinstance(elements, list) is True, f"Expected parameter 'elements' to of type 'list', " \
                                                    f"got {type(elements)}"
-        self._elements = elements
+        self._elements = elements.copy()
 
     def container(self) -> list:
         """
