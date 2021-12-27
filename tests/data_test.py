@@ -1,5 +1,11 @@
+import sys
+import os
 import random
 import array
+
+
+sys.path.append(os.path.abspath("./"))
+sys.path.append(os.path.abspath("./../"))
 
 
 DEFAULT_LIST_LEN = 1_000_000
