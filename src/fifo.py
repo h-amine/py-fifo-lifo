@@ -94,3 +94,10 @@ class Fifo:
             return self._elements.popleft()
         else:
             return None
+
+    def __str__(self):
+        """
+        Returns the underlying container as a string.
+        :return: The underlying container string.
+        """
+        return str(self._elements)
