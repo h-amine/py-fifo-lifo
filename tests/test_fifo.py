@@ -201,3 +201,44 @@ class Test001FifoElementAccess:
         fifo_back = test_fifo.back()
         assert fifo_back is None, f"Expected Fifo back to be None, got {fifo_back}"
 
+
+class Test002FifoModifiers:
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_002_fifo_modifiers_000_push(elements):
+        # setup
+        test_fifo = Fifo()
+
+        # test
+        for elem in elements:
+            test_fifo.push(elem)
+            # check front and back
+            fifo_front = test_fifo.front()
+            fifo_back = test_fifo.back()
+            assert fifo_front is elements[0], f"Expected Fifo front to be {elements[0]}, got {fifo_front}"
+            assert fifo_back is elem, f"Expected Fifo back to be {elem}, got {fifo_back}"
+
+    @staticmethod
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_002_fifo_modifiers_001_pop(elements):
+        # setup
+        size = len(elements)
+        test_fifo = Fifo(elements)
+
+        # test
+        for index in range(0, size):
+            elem = test_fifo.pop()
+            assert elem is elements[index], f"Expected Fifo pop to be {elements[index]}, got {elem}"
+            # check front and back
+            fifo_front = test_fifo.front()
+            fifo_back = test_fifo.back()
+            if index != (size - 1):
+                assert fifo_front is elements[index + 1], f"Expected Fifo front to be " \
+                                                          f"{elements[index + 1]}, got {fifo_front}"
+                assert fifo_back is elements[-1], f"Expected Fifo back to be {elements[-1]}, got {fifo_back}"
+            else:
+                assert fifo_front is None, f"Expected Fifo front to be None, got {fifo_front}"
+                assert fifo_back is None, f"Expected Fifo back to be None, got {fifo_back}"
+
+        elem = test_fifo.pop()
+        assert elem is None, f"Expected Fifo pop to be None, got {elem}"
