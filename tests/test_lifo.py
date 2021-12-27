@@ -1,7 +1,7 @@
 import pytest
 
-from src.lifo import Lifo
 from data_test import *
+from src.lifo import Lifo
 
 
 class Test000LifoCapacity:
@@ -17,10 +17,10 @@ class Test000LifoCapacity:
         assert lifo_empty is True, f"Expected Lifo empty to be True, got {lifo_empty}"
 
     @staticmethod
-    def test_000_lifo_capacity_001_init_non_empty_list():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_lifo_capacity_001_init_non_empty_list(elements):
         # setup
-        max_size = 10_000
-        elements = list(range(0, max_size))
+        max_size = len(elements)
         test_lifo = Lifo(elements=elements)
         lifo_size = test_lifo.size()
         lifo_empty = test_lifo.empty()
@@ -43,10 +43,10 @@ class Test000LifoCapacity:
         assert lifo_empty is True, f"Expected Lifo empty to be True, got {lifo_empty}"
 
     @staticmethod
-    def test_000_lifo_capacity_003_clear_non_empty_lifo():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_lifo_capacity_003_clear_non_empty_lifo(elements):
         # setup
-        max_size = 10_000
-        elements = list(range(0, max_size))
+        max_size = len(elements)
         test_lifo = Lifo(elements=elements)
 
         # test
@@ -57,25 +57,28 @@ class Test000LifoCapacity:
         assert lifo_empty is True, f"Expected Lifo empty to be True, got {lifo_empty}"
 
     @staticmethod
-    def test_000_lifo_capacity_004_push():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_lifo_capacity_004_push(elements):
         # setup
-        max_size = 10_000
         test_lifo = Lifo()
 
         # test
-        for elem in range(0, max_size):
+        nbr = 0
+        for elem in elements:
             test_lifo.push(elem)
+            nbr = nbr + 1
             lifo_size = test_lifo.size()
             lifo_empty = test_lifo.empty()
-            assert lifo_size == elem + 1, f"Expected Lifo size to be == to {elem + 1}, got {lifo_size}"
+            assert lifo_size == nbr, f"Expected Lifo size to be == to {nbr}, got {lifo_size}"
             assert lifo_empty is False, f"Expected Lifo empty to be False, got {lifo_empty}"
 
     @staticmethod
-    def test_000_lifo_capacity_005_pop():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_lifo_capacity_005_pop(elements):
         # setup
-        max_size = 10_000
+        max_size = len(elements)
         test_lifo = Lifo()
-        for elem in range(0, max_size):
+        for elem in elements:
             test_lifo.push(elem)
 
         # test

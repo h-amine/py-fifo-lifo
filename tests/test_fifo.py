@@ -1,7 +1,7 @@
 import pytest
 
-from src.fifo import Fifo
 from data_test import *
+from src.fifo import Fifo
 
 
 class Test000FifoCapacity:
@@ -17,10 +17,10 @@ class Test000FifoCapacity:
         assert fifo_empty is True, f"Expected fifo empty to be True, got {fifo_empty}"
 
     @staticmethod
-    def test_000_fifo_capacity_001_init_non_empty_list():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_fifo_capacity_001_init_non_empty_list(elements):
         # setup
-        max_size = 10_000
-        elements = list(range(0, max_size))
+        max_size = len(elements)
         test_fifo = Fifo(elements=elements)
         fifo_size = test_fifo.size()
         fifo_empty = test_fifo.empty()
@@ -43,10 +43,9 @@ class Test000FifoCapacity:
         assert fifo_empty is True, f"Expected fifo empty to be True, got {fifo_empty}"
 
     @staticmethod
-    def test_000_fifo_capacity_003_clear_non_empty_fifo():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_fifo_capacity_003_clear_non_empty_fifo(elements):
         # setup
-        max_size = 10_000
-        elements = list(range(0, max_size))
         test_fifo = Fifo(elements=elements)
 
         # test
@@ -57,25 +56,27 @@ class Test000FifoCapacity:
         assert fifo_empty is True, f"Expected fifo empty to be True, got {fifo_empty}"
 
     @staticmethod
-    def test_000_fifo_capacity_004_push():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_fifo_capacity_004_push(elements):
         # setup
-        max_size = 10_000
+        max_size = len(elements)
         test_fifo = Fifo()
 
         # test
-        for elem in range(0, max_size):
-            test_fifo.push(elem)
+        for index in range(0, max_size):
+            test_fifo.push(elements[index])
             fifo_size = test_fifo.size()
             fifo_empty = test_fifo.empty()
-            assert fifo_size == elem + 1, f"Expected fifo size to be == to {elem + 1}, got {fifo_size}"
+            assert fifo_size == index + 1, f"Expected fifo size to be == to {index + 1}, got {fifo_size}"
             assert fifo_empty is False, f"Expected fifo empty to be False, got {fifo_empty}"
 
     @staticmethod
-    def test_000_fifo_capacity_005_pop():
+    @pytest.mark.parametrize('elements', TEST_LISTS)
+    def test_000_fifo_capacity_005_pop(elements):
         # setup
-        max_size = 10_000
+        max_size = len(elements)
         test_fifo = Fifo()
-        for elem in range(0, max_size):
+        for elem in elements:
             test_fifo.push(elem)
 
         # test
